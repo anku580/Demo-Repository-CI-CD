@@ -6,44 +6,16 @@ orbs:
   welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
 jobs:
-  print_hello:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - run: echo Hello
-  print_world:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - run: echo World
-  build:
+  print_myName:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - run: npm i
-      - save cache:
-          key: "npm-packages"
-          paths:
-            - /src/node_modules
-      - run: npm run lint
-  test:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - restore_cache:
-          keys:
-            - "npm-packages"
-      - run: npm i
-      - run: npm run test
+      - run: echo $USER_NAME
 
 workflows:
   # Name the workflow "welcome"
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - welcome/run
-      - print_hello
-      - print_world:
-          requires:
-            - print_hello
+      - print_myName
